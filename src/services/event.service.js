@@ -109,41 +109,39 @@ const eventCreate = async ({ title, description, venue, city, start_at, end_at, 
 
 
 const eventUpdate = async ({ title, description, venue, city, start_at, end_at, status,
-     }, id) => {
+}, id) => {
 
-        const nTitle = title ?? null;
-        const nDescription = description ?? null;
-        const nVenue = venue ?? null;
-        const nCity = city ?? null;
-        const nStart_at = start_at ?? null;
-        const nEnd_at = end_at ?? null;
-        const nStatus = status ?? null;
+    const nTitle = title ?? null;
+    const nDescription = description ?? null;
+    const nVenue = venue ?? null;
+    const nCity = city ?? null;
+    const nStart_at = start_at ?? null;
+    const nEnd_at = end_at ?? null;
+    const nStatus = status ?? null;
 
-        const result = await updateEvent(nTitle,nDescription,nVenue,nCity,nStart_at,nEnd_at,nStatus,id);
+    const isCancel = await eventDetail(id);
 
-        return result;
-}
-
-const detailEvent = async(id)=>{
-//    if(!id){
-//     const error = new Error('id is required');
-//     error.status = 400;
-//     throw error;
-//    }
-    const result = await eventDetail(id);
-    return result;
-}
-
-const ChangeEventStatus = async(id)=>{
-    if(!id){
-        const error =new Error('Id is required');
+    if (isCancel.status === 'cancelled') {
+        const error = new Error('Cancelled status event cannot be change');
         error.status = 400;
         throw error;
     }
 
-    const isCancel = await detailEvent(id)
+    const result = await updateEvent(nTitle, nDescription, nVenue, nCity, nStart_at, nEnd_at, nStatus, id);
 
+    return result;
 }
+
+const detailEvent = async (id) => {
+    //    if(!id){
+    //     const error = new Error('id is required');
+    //     error.status = 400;
+    //     throw error;
+    //    }
+    const result = await eventDetail(id);
+    return result;
+}
+
 
 
 module.exports = { eventCreate, eventUpdate, detailEvent };

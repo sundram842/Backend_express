@@ -5,7 +5,8 @@ const errorHandler = require('./middlewares/errorHandler');
 const usersRoute = require('./routes/user.routes');
 const authRout = require('./routes/auth.router')
 const categoriesRouter = require('./routes/categories.router');
-const eventRouter = require('./routes/event.route')
+const eventRouter = require('./routes/event.route');
+const permissionRout = require('./routes/permission.route')
 
 const app = express();
 
@@ -16,7 +17,8 @@ app.use('/api', routes);
 app.use('/api/users', usersRoute);
 app.use('/api/auth', authRout);
 app.use('/api/categories',categoriesRouter);
-app.use('/api/events',eventRouter)
+app.use('/api/events',eventRouter);
+app.use('/api/permission',permissionRout);
 
 app.use(notFound);
 app.use(errorHandler);

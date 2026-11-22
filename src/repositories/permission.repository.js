@@ -22,4 +22,12 @@ const result = await pool.query(
     return result;
 }
 
-module.exports ={deletePermission,addPermission}
+const getAllPermission = async(id)=>{
+    const result = await pool.query('select permission_id from role_permissions where role_id =$1',
+        [id]
+    );
+
+    return result.rows;
+}
+
+module.exports ={deletePermission,addPermission,getAllPermission}
